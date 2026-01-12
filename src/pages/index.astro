@@ -5,6 +5,17 @@ import Header from '../components/Header.astro';
 import miFoto from '../assets/3798d8bd-b8b5-40ea-938d-cb7bebf72fee.jpg';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
+<<<<<<< HEAD
+=======
+
+// src/pages/index.astro
+const runtime = (Astro.locals as any).runtime;
+const db = runtime.env.mi_tienda_db;
+// Consultamos la base de datos
+const { results } = await db.prepare("SELECT * FROM productos").all();
+const productos = results;
+
+>>>>>>> f6553e79e4fbcebd28d110289dab97081b1a74a7
 ---
 
 <!doctype html>
@@ -19,6 +30,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				<img src={miFoto.src} alt="Mi foto" width="200" style="border-radius: 50%;" />
 				Hola, Soy Jhon Dalton!
 			</h1>
+<<<<<<< HEAD
+=======
+
+			<h1>Mi Tienda en Cloudflare D1</h1>
+			<ul>
+			{productos.map((p: { nombre: unknown; precio: unknown; }) => (
+				<li>
+				<strong>{p.nombre}</strong> - ${p.precio}
+				</li>
+			))}
+			</ul>
+>>>>>>> f6553e79e4fbcebd28d110289dab97081b1a74a7
 			
 
 			<p>
