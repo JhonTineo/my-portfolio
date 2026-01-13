@@ -1,8 +1,8 @@
 ---
-title: 'PlantIA'
+title: 'Expociciòn Proyectos'
 description: 'Apliciòn movil para identificar plantas scaneando sus hojas, mediante un modelo de Inteligencia Artificial'
 pubDate: 'Oct 19 2025'
-heroImage: '../../assets/PlantIA.jpg'
+heroImage: '../../assets/ExpocicionGobierno.jpeg'
 
 ---
 
