@@ -1,0 +1,269 @@
+---
+import { Image } from 'astro:assets';
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import Gallery from '../../components/Gallery.astro';
+import { CATEGORIES } from '../../consts';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+	const all = (await getCollection('proyectos', ({ data }) => !data.draft)).sort(
+		(a, b) => a.data.order - b.data.order,
+	);
+	return all.map((post, i) => ({
+		params: { slug: post.id },
+		props: { post, next: all[(i + 1) % all.length] },
+	}));
+}
+
+interface Props {
+	post: CollectionEntry<'proyectos'>;
+	next: CollectionEntry<'proyectos'>;
+}
+const { post, next } = Astro.props;
+const p = post.data;
+const { Content } = await render(post);
+---
+
+<Base title={p.title} description={p.description} image={p.heroImage}>
+	<article>
+		<header class="wrap head">
+			<a href="/proyectos" class="back">← Todos los proyectos</a>
+			<span class="eyebrow lime">{CATEGORIES[p.category]}{p.org && ` · ${p.org}`}</span>
+			<h1>{p.title}</h1>
+			<p class="lede">{p.tagline}</p>
+			{
+				p.demo && (
+					<div class="cta-row">
+						{p.demo && (
+							<a class="btn primary live" href={p.demo} target="_blank" rel="noopener">
+								<span class="dot" aria-hidden="true" />
+								Visitar ↗
+							</a>
+						)}
+					</div>
+				)
+			}
+		</header>
+
+		<div class="wrap">
+			<div class="hero" data-reveal>
+				<Image src={p.heroImage} alt={p.heroAlt} width={1400} loading="eager" />
+			</div>
+		</div>
+
+		<div class="wrap layout">
+			<aside class="meta">
+				<dl>
+					<div><dt>Estado</dt><dd class="status">{p.status}</dd></div>
+					{
+						p.demo && (
+							<div>
+								<dt>En vivo</dt>
+								<dd class="links">
+									<a href={p.demo} target="_blank" rel="noopener">{new URL(p.demo).hostname} ↗</a>
+								</dd>
+							</div>
+						)
+					}
+					{p.role && <div><dt>Mi rol</dt><dd>{p.role}</dd></div>}
+					<div>
+						<dt>Tecnologías</dt>
+						<dd class="chips">{p.stack.map((s) => <span class="chip">{s}</span>)}</dd>
+					</div>
+					{
+						p.links.length > 0 && (
+							<div>
+								<dt>Enlaces</dt>
+								<dd class="links">
+									{p.links.map((l) => (
+										<a href={l.url} target="_blank" rel="noopener">
+											{l.label} ↗
+										</a>
+									))}
+								</dd>
+							</div>
+						)
+					}
+				</dl>
+			</aside>
+
+			<div class="main">
+				{
+					p.metrics.length > 0 && (
+						<div class="metrics">
+							{p.metrics.map((m) => (
+								<div>
+									<strong>{m.value}</strong>
+									<span>{m.label}</span>
+								</div>
+							))}
+						</div>
+					)
+				}
+				<div class="prose">
+					<Content />
+				</div>
+				<Gallery items={p.gallery} />
+			</div>
+		</div>
+
+		<nav class="wrap next" aria-label="Siguiente proyecto">
+			<a href={`/proyectos/${next.id}/`}>
+				<span class="eyebrow">Siguiente proyecto</span>
+				<span class="t">{next.data.title} →</span>
+			</a>
+		</nav>
+	</article>
+</Base>
+
+<style>
+	.head {
+		padding-top: clamp(2.5rem, 6vw, 4.5rem);
+		padding-bottom: 2.5rem;
+	}
+	.back {
+		display: block;
+		width: fit-content;
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		color: var(--muted);
+		text-decoration: none;
+		margin-bottom: 2rem;
+	}
+	h1 {
+		margin: 1rem 0 1.2rem;
+		max-width: 16ch;
+	}
+	.lede {
+		font-size: clamp(1.1rem, 2vw, 1.35rem);
+		color: var(--paper-dim);
+		max-width: 58ch;
+	}
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.7rem;
+		margin-top: 2rem;
+	}
+	.live .dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--lime-ink);
+		box-shadow: 0 0 0 0 rgba(27, 36, 0, 0.6);
+		animation: ping 1.8s ease-out infinite;
+	}
+	@keyframes ping {
+		70% {
+			box-shadow: 0 0 0 8px rgba(27, 36, 0, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(27, 36, 0, 0);
+		}
+	}
+	.links a {
+		word-break: break-all;
+	}
+	.hero {
+		border-radius: calc(var(--radius) + 4px);
+		overflow: hidden;
+		border: 1px solid var(--line);
+		background: var(--ink-3);
+	}
+	.hero img {
+		width: 100%;
+		max-height: 680px;
+		object-fit: cover;
+		object-position: top;
+	}
+	.layout {
+		display: grid;
+		grid-template-columns: 280px 1fr;
+		gap: clamp(2rem, 5vw, 4.5rem);
+		padding-top: 3.5rem;
+	}
+	.meta dl {
+		position: sticky;
+		top: 100px;
+		margin: 0;
+		display: grid;
+		gap: 1.5rem;
+	}
+	dt {
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--muted);
+		margin-bottom: 0.45rem;
+	}
+	dd {
+		margin: 0;
+		font-size: 0.95rem;
+	}
+	.status {
+		color: var(--lime);
+	}
+	.links {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+	.main {
+		min-width: 0;
+	}
+	.metrics {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		margin-bottom: 2.5rem;
+		overflow: hidden;
+	}
+	.metrics div {
+		padding: 1.2rem 1.3rem;
+		border-right: 1px solid var(--line);
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+	}
+	.metrics div:last-child {
+		border-right: 0;
+	}
+	.metrics strong {
+		font-family: var(--font-display);
+		font-size: 2rem;
+		font-weight: 500;
+		line-height: 1;
+		color: var(--lime);
+	}
+	.metrics span {
+		font-size: 0.82rem;
+		color: var(--paper-dim);
+	}
+	.next {
+		padding-top: 3rem;
+		padding-bottom: 5rem;
+	}
+	.next a {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		text-decoration: none;
+		border-top: 1px solid var(--line);
+		padding-top: 2rem;
+	}
+	.next .t {
+		font-family: var(--font-display);
+		font-size: clamp(1.8rem, 4vw, 3rem);
+		line-height: 1.1;
+	}
+	@media (max-width: 860px) {
+		.layout {
+			grid-template-columns: 1fr;
+		}
+		.meta dl {
+			position: static;
+		}
+	}
+</style>

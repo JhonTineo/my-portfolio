@@ -1,0 +1,233 @@
+---
+import { Image } from 'astro:assets';
+import foto from '../assets/jhon.jpg';
+import { AUTHOR } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const timeline = [
+	{ y: '2026', t: 'Yumi entra a producción en SYSCO', d: 'Integración con ZMC en el sistema comercial de EMAPA San Martín y reconocimiento oficial de la empresa.' },
+	{ y: '2026', t: 'Primer lugar · Datathon SUNASS', d: 'Categoría II, macrorregión Oriente. Pasantía técnica con EMAPA San Martín.' },
+	{ y: '2026', t: 'SIFC, BI del balance hídrico y Blockcerts', d: 'Aula virtual para la UNSM, plataforma de BI para EMAPA y certificados verificables con blockchain.' },
+	{ y: '2026', t: 'Proyecto de tesis: MeryApp', d: 'Agente de voz con LLM e invocación de funciones para personas ciegas.' },
+	{ y: '2025', t: 'PlantIA en ferias y exposiciones', d: 'App móvil que identifica plantas con un modelo de IA, presentada ante público y jurado.' },
+];
+
+const skills = [
+	{ g: 'IA aplicada', items: ['LLM y agentes', 'RAG · Qdrant', 'Function calling', 'Ollama · modelos locales', 'Visión por computadora'] },
+	{ g: 'Backend', items: ['Python · FastAPI', 'Java · Spring Boot', 'Django', 'Arquitectura hexagonal', 'APIs REST · SSE'] },
+	{ g: 'Frontend y móvil', items: ['Next.js · React', 'Angular · microfrontends', 'TypeScript · Tailwind', 'Flutter · Android'] },
+	{ g: 'Datos', items: ['PostgreSQL · MySQL', 'dbt · modelo estrella', 'ETL · Alembic', 'Supabase', 'Simulación de procesos'] },
+	{ g: 'Infraestructura', items: ['VPS Linux', 'Docker · Compose', 'Caddy · HTTPS', 'Cloudflare · AWS', 'Redes y servidores'] },
+];
+---
+
+<Base title="Sobre mí" description="Jhon Dalton Huaman Quintana: estudiante de Ingeniería de Sistemas e Informática en la UNSM, desarrollador de software con IA aplicada.">
+	<section class="wrap intro">
+		<div class="txt">
+			<span class="eyebrow lime">Sobre mí</span>
+			<h1>Me gusta arreglar cosas. <em class="serif-italic">Ahora lo hago con software.</em></h1>
+			<div class="prose">
+				<p>
+					Desde pequeño desarmaba y reparaba lo que se malograba en casa. De ahí nació algo que no he perdido: las ganas de
+					enfrentar retos nuevos y, sobre todo, de <strong>crear soluciones que aporten valor a otras personas</strong>.
+					Hoy la informática es mi herramienta principal para resolver problemas cada vez más complejos.
+				</p>
+				<p>
+					Soy estudiante de los últimos ciclos de <strong>Ingeniería de Sistemas e Informática en la Universidad Nacional
+					de San Martín</strong> (Tarapoto). En la carrera he trabajado en desarrollo de software, modelamiento y
+					simulación de procesos, soluciones electrónicas con microcontroladores y análisis de datos.
+				</p>
+				<p>
+					Por mi cuenta me especialicé en <strong>inteligencia artificial aplicada</strong> (agentes, RAG y modelos
+					locales), en <strong>desarrollo móvil</strong> y en <strong>llevar sistemas a producción</strong> en mi propio
+					VPS, en Cloudflare y en AWS.
+				</p>
+				<p>
+					Lo que más me motiva es el impacto real: entender bien el requerimiento, construir la solución adecuada y
+					dejarla funcionando para quienes la necesitan. Eso pasó con <a href="/proyectos/yumi/">Yumi</a> en EMAPA San
+					Martín y con <a href="/proyectos/sifc/">SIFC</a> en la UNSM.
+				</p>
+			</div>
+			<div class="actions">
+				<a class="btn primary" href={`mailto:${AUTHOR.email}`}>Contactarme</a>
+				<a class="btn" href={AUTHOR.github} target="_blank" rel="noopener">GitHub ↗</a>
+				<a class="btn" href={AUTHOR.orcid} target="_blank" rel="noopener">ORCID ↗</a>
+			</div>
+		</div>
+		<aside class="side">
+			<div class="photo"><Image src={foto} alt="Jhon Dalton Huaman" width={240} loading="eager" /></div>
+			<dl>
+				<div><dt>Nombre</dt><dd>{AUTHOR.name}</dd></div>
+				<div><dt>Formación</dt><dd>Ing. de Sistemas e Informática · UNSM</dd></div>
+				<div><dt>Tesis</dt><dd>Agente de voz con LLM para personas ciegas</dd></div>
+				<div><dt>Ubicación</dt><dd>{AUTHOR.location}</dd></div>
+			</dl>
+		</aside>
+	</section>
+
+	<section class="section wrap">
+		<div class="section-head">
+			<span class="num">01</span>
+			<h2>Trayectoria reciente</h2>
+		</div>
+		<ol class="tl">
+			{
+				timeline.map((e) => (
+					<li data-reveal>
+						<span class="y">{e.y}</span>
+						<div>
+							<h3>{e.t}</h3>
+							<p>{e.d}</p>
+						</div>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<section class="section wrap">
+		<div class="section-head">
+			<span class="num">02</span>
+			<h2>Con qué trabajo</h2>
+		</div>
+		<div class="skills">
+			{
+				skills.map((s, i) => (
+					<div class="sk" data-reveal style={`--d:${i * 0.06}s`}>
+						<h3>{s.g}</h3>
+						<ul>{s.items.map((it) => <li>{it}</li>)}</ul>
+					</div>
+				))
+			}
+		</div>
+	</section>
+</Base>
+
+<style>
+	.intro {
+		display: grid;
+		grid-template-columns: 1fr 300px;
+		gap: clamp(2rem, 6vw, 5rem);
+		padding-top: clamp(3rem, 8vw, 6rem);
+	}
+	h1 {
+		margin: 1.2rem 0 2rem;
+		font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+	}
+	.prose {
+		font-size: 1.08rem;
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.7rem;
+		margin-top: 2rem;
+	}
+	.side {
+		position: sticky;
+		top: 100px;
+		align-self: start;
+	}
+	.photo {
+		border-radius: 18px;
+		overflow: hidden;
+		border: 1px solid var(--line);
+		aspect-ratio: 5 / 6;
+	}
+	.photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	dl {
+		margin: 1.4rem 0 0;
+		display: grid;
+		gap: 0.9rem;
+	}
+	dt {
+		font-family: var(--font-mono);
+		font-size: 0.66rem;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: var(--muted);
+	}
+	dd {
+		margin: 0;
+		font-size: 0.93rem;
+	}
+	.tl {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		border-left: 1px solid var(--line);
+	}
+	.tl li {
+		display: grid;
+		grid-template-columns: 90px 1fr;
+		gap: 1.5rem;
+		padding: 0 0 2.2rem 1.6rem;
+		position: relative;
+	}
+	.tl li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: 0.55rem;
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: var(--lime);
+	}
+	.y {
+		font-family: var(--font-mono);
+		font-size: 0.82rem;
+		color: var(--lime);
+		padding-top: 0.3rem;
+	}
+	.tl h3 {
+		margin: 0 0 0.3rem;
+	}
+	.tl p {
+		color: var(--paper-dim);
+		margin: 0;
+	}
+	.skills {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+		gap: 1.2rem;
+	}
+	.sk {
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		padding: 1.4rem;
+		background: var(--ink-2);
+	}
+	.sk h3 {
+		font-size: 1.3rem;
+		margin-bottom: 1rem;
+	}
+	.sk ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.sk li {
+		font-size: 0.92rem;
+		color: var(--paper-dim);
+		padding: 0.4rem 0;
+		border-top: 1px solid var(--line-soft);
+	}
+	@media (max-width: 860px) {
+		.intro {
+			grid-template-columns: 1fr;
+		}
+		.side {
+			position: static;
+			max-width: 320px;
+		}
+		.tl li {
+			grid-template-columns: 1fr;
+			gap: 0.2rem;
+		}
+	}
+</style>

@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { CATEGORIES } from '../consts';
+
+interface Props {
+	project: CollectionEntry<'proyectos'>;
+	index?: number;
+}
+const { project, index = 0 } = Astro.props;
+const p = project.data;
+---
+
+<a class="card" href={`/proyectos/${project.id}/`} data-reveal style={`--d:${(index % 3) * 0.08}s`}>
+	<div class="media">
+		<Image src={p.heroImage} alt={p.heroAlt} width={720} height={420} fit="cover" />
+		<span class="cat">{CATEGORIES[p.category]}</span>
+		{p.demo && <span class="live">● En vivo</span>}
+	</div>
+	<div class="body">
+		<h3>{p.title}</h3>
+		<p>{p.tagline}</p>
+		<div class="chips">
+			{p.stack.slice(0, 4).map((s) => <span class="chip">{s}</span>)}
+		</div>
+		<span class="status">{p.status}</span>
+	</div>
+</a>
+
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--ink-2);
+		overflow: hidden;
+		transition:
+			border-color 0.3s var(--ease),
+			transform 0.4s var(--ease);
+	}
+	.card:hover {
+		border-color: rgba(255, 255, 255, 0.5);
+		transform: translateY(-4px);
+		color: inherit;
+	}
+	.media {
+		position: relative;
+		aspect-ratio: 12 / 7;
+		overflow: hidden;
+		background: var(--ink-3);
+	}
+	.media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.8s var(--ease);
+	}
+	.card:hover .media img {
+		transform: scale(1.04);
+	}
+	.cat {
+		position: absolute;
+		left: 12px;
+		top: 12px;
+		font-family: var(--font-mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		background: rgba(2, 8, 23, 0.85);
+		border: 1px solid var(--line);
+		padding: 0.3em 0.7em;
+		border-radius: 8px;
+	}
+	.live {
+		position: absolute;
+		right: 12px;
+		top: 12px;
+		font-family: var(--font-mono);
+		font-size: 0.68rem;
+		font-weight: 600;
+		background: var(--lime);
+		color: var(--lime-ink);
+		padding: 0.3em 0.7em;
+		border-radius: 8px;
+	}
+	.body {
+		padding: 1.3rem 1.3rem 1.4rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.7rem;
+		flex: 1;
+	}
+	h3 {
+		margin: 0;
+		font-size: 1.4rem;
+	}
+	p {
+		margin: 0;
+		color: var(--paper-dim);
+		font-size: 0.95rem;
+		flex: 1;
+	}
+	.status {
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		color: var(--paper-dim);
+	}
+	.status::before {
+		content: '● ';
+		color: var(--ok);
+	}
+</style>

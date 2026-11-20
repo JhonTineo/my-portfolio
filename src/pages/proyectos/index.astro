@@ -1,0 +1,105 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { CATEGORIES } from '../../consts';
+import Base from '../../layouts/Base.astro';
+
+const projects = (await getCollection('proyectos', ({ data }) => !data.draft)).sort(
+	(a, b) => a.data.order - b.data.order,
+);
+const used = [...new Set(projects.map((p) => p.data.category))];
+---
+
+<Base
+	title="Proyectos"
+	description="Software que construí: asistentes con IA, plataformas académicas, BI para agua potable, apps móviles y despliegues propios."
+>
+	<section class="wrap intro">
+		<span class="eyebrow lime">Proyectos · {projects.length}</span>
+		<h1>Software hecho para <em class="serif-italic">usarse</em>, no solo para mostrarse.</h1>
+		<p>
+			Cada proyecto nace de una necesidad concreta: una empresa de agua, una unidad académica, personas ciegas o un
+			restaurante. Aquí está lo que construí, con qué y en qué estado se encuentra.
+		</p>
+
+		<div class="filters" role="group" aria-label="Filtrar por categoría">
+			<button class="chip lime" data-f="all" aria-pressed="true">Todos</button>
+			{used.map((c) => <button class="chip" data-f={c} aria-pressed="false">{CATEGORIES[c]}</button>)}
+		</div>
+	</section>
+
+	<section class="wrap grid">
+		{
+			projects.map((p, i) => (
+				<div class="cell" data-cat={p.data.category}>
+					<ProjectCard project={p} index={i} />
+				</div>
+			))
+		}
+	</section>
+</Base>
+
+<script>
+	const btns = document.querySelectorAll<HTMLButtonElement>('[data-f]');
+	const cells = document.querySelectorAll<HTMLElement>('.cell');
+	btns.forEach((b) =>
+		b.addEventListener('click', () => {
+			const f = b.dataset.f;
+			btns.forEach((x) => {
+				const on = x === b;
+				x.setAttribute('aria-pressed', String(on));
+				x.classList.toggle('lime', on);
+			});
+			cells.forEach((c) => (c.hidden = f !== 'all' && c.dataset.cat !== f));
+		}),
+	);
+</script>
+
+<style>
+	.intro {
+		padding-top: clamp(3rem, 8vw, 6rem);
+		padding-bottom: 3rem;
+	}
+	h1 {
+		margin: 1.2rem 0 1.4rem;
+		max-width: 17ch;
+	}
+	.intro p {
+		color: var(--paper-dim);
+		max-width: 60ch;
+		font-size: 1.1rem;
+	}
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 2rem;
+	}
+	.filters button {
+		cursor: pointer;
+		font-size: 0.78rem;
+		padding: 0.5em 1em;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.4rem;
+		padding-bottom: 6rem;
+	}
+	.cell {
+		display: flex;
+	}
+	.cell :global(.card) {
+		width: 100%;
+	}
+	@media (max-width: 1000px) {
+		.grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	@media (max-width: 640px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

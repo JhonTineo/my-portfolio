@@ -1,0 +1,99 @@
+---
+import { Image } from 'astro:assets';
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import Gallery from '../../components/Gallery.astro';
+import { KINDS } from '../../consts';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+	const all = await getCollection('logros', ({ data }) => !data.draft);
+	return all.map((post) => ({ params: { slug: post.id }, props: post }));
+}
+
+type Props = CollectionEntry<'logros'>;
+const post = Astro.props;
+const d = post.data;
+const { Content } = await render(post);
+---
+
+<Base title={d.title} description={d.description} image={d.heroImage}>
+	<article class="wrap">
+		<header class="head">
+			<a href="/logros" class="back">← Logros y participaciones</a>
+			<span class="eyebrow lime">{KINDS[d.kind]} · {d.dateLabel}</span>
+			<h1>{d.title}</h1>
+			<p class="lede">{d.description}</p>
+			<div class="chips">
+				{d.result && <span class="chip lime">{d.result}</span>}
+				{d.organizer && <span class="chip">{d.organizer}</span>}
+			</div>
+		</header>
+
+		<div class="hero" data-reveal>
+			<Image src={d.heroImage} alt={d.heroAlt} width={1400} loading="eager" />
+		</div>
+
+		<div class="body">
+			<div class="prose">
+				<Content />
+			</div>
+			{
+				d.links.length > 0 && (
+					<div class="links">
+						{d.links.map((l) => (
+							<a class="btn" href={l.url} target="_blank" rel="noopener">
+								{l.label} ↗
+							</a>
+						))}
+					</div>
+				)
+			}
+			<Gallery items={d.gallery} />
+		</div>
+	</article>
+</Base>
+
+<style>
+	.head {
+		padding-top: clamp(2.5rem, 6vw, 4.5rem);
+		padding-bottom: 2.5rem;
+		max-width: 900px;
+	}
+	.back {
+		display: block;
+		width: fit-content;
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		color: var(--muted);
+		text-decoration: none;
+		margin-bottom: 2rem;
+	}
+	h1 {
+		margin: 1rem 0 1.2rem;
+	}
+	.lede {
+		font-size: clamp(1.1rem, 2vw, 1.3rem);
+		color: var(--paper-dim);
+	}
+	.hero {
+		border-radius: calc(var(--radius) + 4px);
+		overflow: hidden;
+		border: 1px solid var(--line);
+	}
+	.hero img {
+		width: 100%;
+		max-height: 640px;
+		object-fit: cover;
+	}
+	.body {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 3.5rem 0 6rem;
+	}
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.7rem;
+		margin-top: 1.5rem;
+	}
+</style>

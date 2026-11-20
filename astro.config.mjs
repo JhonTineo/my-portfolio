@@ -8,7 +8,14 @@ import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
+  // TODO: reemplazar por el dominio real donde se publica el portafolio.
   site: 'https://example.com',
   integrations: [mdx(), sitemap()],
   adapter: cloudflare(),
+  // Las rutas antiguas siguen funcionando.
+  redirects: {
+    '/proyect': '/proyectos',
+    '/participate': '/logros',
+    '/about': '/sobre-mi',
+  },
 });

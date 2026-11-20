@@ -1,0 +1,141 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { KINDS } from '../../consts';
+import Base from '../../layouts/Base.astro';
+
+const items = (await getCollection('logros', ({ data }) => !data.draft)).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base
+	title="Logros y participaciones"
+	description="Concursos, reconocimientos, ferias tecnológicas y experiencias: Datathon SUNASS 2026, reconocimiento de EMAPA San Martín y más."
+>
+	<section class="wrap intro">
+		<span class="eyebrow lime">Logros · Ferias · Concursos</span>
+		<h1>Donde el trabajo <em class="serif-italic">salió a la calle.</em></h1>
+		<p>
+			Concursos ganados, proyectos presentados ante jurados y empresas, y experiencias que me formaron fuera del aula.
+		</p>
+	</section>
+
+	<ol class="wrap timeline">
+		{
+			items.map((it, i) => (
+				<li data-reveal class:list={{ featured: it.data.featured }}>
+					<div class="when">
+						<span>{it.data.dateLabel}</span>
+						<span class="kind">{KINDS[it.data.kind]}</span>
+					</div>
+					<a href={`/logros/${it.id}/`} class="item">
+						<div class="txt">
+							<h2>{it.data.title}</h2>
+							<p>{it.data.description}</p>
+							{it.data.result && <span class="chip lime">{it.data.result}</span>}
+						</div>
+						<div class="img">
+							<Image src={it.data.heroImage} alt={it.data.heroAlt} width={640} height={420} fit="cover" loading={i < 2 ? 'eager' : 'lazy'} />
+						</div>
+					</a>
+				</li>
+			))
+		}
+	</ol>
+</Base>
+
+<style>
+	.intro {
+		padding-top: clamp(3rem, 8vw, 6rem);
+		padding-bottom: 3rem;
+	}
+	h1 {
+		margin: 1.2rem 0 1.4rem;
+		max-width: 15ch;
+	}
+	.intro p {
+		color: var(--paper-dim);
+		max-width: 58ch;
+		font-size: 1.1rem;
+	}
+	.timeline {
+		list-style: none;
+		padding-bottom: 6rem;
+		margin: 0 auto;
+	}
+	li {
+		display: grid;
+		grid-template-columns: 160px 1fr;
+		gap: 2rem;
+		border-top: 1px solid var(--line);
+		padding: 2rem 0;
+	}
+	.when {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		color: var(--paper);
+	}
+	.kind {
+		color: var(--muted);
+		font-size: 0.72rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+	.item {
+		display: grid;
+		grid-template-columns: 1fr 300px;
+		gap: 2rem;
+		text-decoration: none;
+		align-items: start;
+	}
+	.item h2 {
+		font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+		margin-bottom: 0.6rem;
+		transition: color 0.2s var(--ease);
+	}
+	.item:hover h2 {
+		color: var(--lime);
+	}
+	.item p {
+		color: var(--paper-dim);
+		margin-bottom: 1rem;
+	}
+	.img {
+		border-radius: var(--radius);
+		overflow: hidden;
+		border: 1px solid var(--line);
+		aspect-ratio: 32 / 21;
+	}
+	.img img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.7s var(--ease);
+	}
+	.item:hover .img img {
+		transform: scale(1.04);
+	}
+	li.featured .item h2 {
+		font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+	}
+	@media (max-width: 860px) {
+		li {
+			grid-template-columns: 1fr;
+			gap: 0.8rem;
+		}
+		.when {
+			flex-direction: row;
+			gap: 1rem;
+		}
+		.item {
+			grid-template-columns: 1fr;
+		}
+		.img {
+			order: -1;
+		}
+	}
+</style>
