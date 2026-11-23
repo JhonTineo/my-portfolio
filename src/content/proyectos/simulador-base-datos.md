@@ -10,6 +10,7 @@ status: 'Fase 1 · en desarrollo'
 role: 'Autor.'
 stack: ['React', 'Three.js', 'React Three Fiber', 'WebXR', 'Zustand', 'GSAP']
 order: 8
+demo: 'https://database-simulator-nu.vercel.app/'
 ---
 
 ## La metáfora
