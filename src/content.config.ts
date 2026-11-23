@@ -14,6 +14,7 @@ const proyectos = defineCollection({
 			updatedDate: z.coerce.date().optional(),
 			heroImage: image(),
 			heroAlt: z.string().default(''),
+			heroFit: z.enum(['cover', 'contain']).default('cover'),
 			gallery: z
 				.array(z.object({ src: image(), alt: z.string(), caption: z.string().optional() }))
 				.default([]),

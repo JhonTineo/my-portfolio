@@ -47,7 +47,7 @@ const { Content } = await render(post);
 
 		<div class="wrap">
 			<div class="hero" data-reveal>
-				<Image src={p.heroImage} alt={p.heroAlt} width={1400} loading="eager" />
+				<Image src={p.heroImage} alt={p.heroAlt} width={1400} loading="eager" style={`object-fit: ${p.heroFit}`} />
 			</div>
 		</div>
 

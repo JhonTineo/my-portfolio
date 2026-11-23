@@ -13,7 +13,7 @@ const p = project.data;
 
 <a class="card" href={`/proyectos/${project.id}/`} data-reveal style={`--d:${(index % 3) * 0.08}s`}>
 	<div class="media">
-		<Image src={p.heroImage} alt={p.heroAlt} width={720} height={420} fit="cover" />
+		<Image src={p.heroImage} alt={p.heroAlt} width={720} height={420} fit={p.heroFit} style={`object-fit: ${p.heroFit}`} />
 		<span class="cat">{CATEGORIES[p.category]}</span>
 		{p.demo && <span class="live">● En vivo</span>}
 	</div>

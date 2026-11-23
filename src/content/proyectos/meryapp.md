@@ -4,8 +4,9 @@ tagline: 'Agente de voz para Android pensado para personas ciegas: hablas en len
 description: 'MeryApp: agente móvil de voz basado en LLM con invocación de funciones, para mejorar la usabilidad de Android en personas ciegas. Proyecto de tesis.'
 pubDate: '2026-08-31'
 updatedDate: '2026-11-18'
-heroImage: '../../assets/proyectos/mery-arquitectura.jpg'
-heroAlt: 'Arquitectura de Mery: entrada de voz, memoria de contexto, bucle del agente, conexión LLM y registro de herramientas'
+heroImage: '../../assets/proyectos/mery-flyer.png'
+heroAlt: 'Flyer de Mery: Di lo que quieres hacer. Ejemplos de órdenes por voz e integraciones previstas con WhatsApp y Google'
+heroFit: 'contain'
 category: 'movil'
 org: 'Proyecto de tesis · UNSM'
 status: 'En desarrollo · proyecto de tesis'
@@ -17,6 +18,7 @@ metrics:
   - { value: '30', label: 'participantes ciegos en la evaluación' }
   - { value: '2', label: 'condiciones: TalkBack vs TalkBack + Mery' }
 gallery:
+  - { src: '../../assets/proyectos/mery-arquitectura.jpg', alt: 'Arquitectura de Mery: voz, memoria de contexto, agente y herramientas', caption: 'Arquitectura del agente: entrada de voz, memoria, conexión LLM y registro de herramientas.' }
   - { src: '../../assets/proyectos/mery-tools.jpg', alt: 'Selección y composición de herramientas en Mery', caption: 'Pocas herramientas reutilizables se combinan para cumplir tareas diversas: «Llama a Ana» = buscar contacto + iniciar llamada.' }
 ---
 

@@ -117,7 +117,7 @@ const deploys = [
 					featured.map((p, i) => (
 						<article class="feature" data-reveal>
 							<a class="f-media" href={`/proyectos/${p.id}/`} tabindex="-1" aria-hidden="true">
-								<Image src={p.data.heroImage} alt={p.data.heroAlt} width={900} height={560} fit="cover" />
+								<Image src={p.data.heroImage} alt={p.data.heroAlt} width={900} height={560} fit={p.data.heroFit} style={`object-fit: ${p.data.heroFit}`} />
 							</a>
 							<div class="f-body">
 								<span class="f-num">0{i + 1}</span>

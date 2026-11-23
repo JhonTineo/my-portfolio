@@ -4,8 +4,9 @@ tagline: 'Sistema Integrado de Formación Continua: portal, inscripciones, aula 
 description: 'SIFC: plataforma académica y aula virtual de la Unidad de Formación Continua de la Universidad Nacional de San Martín, en fase de pruebas y despliegue en servidores de la UNSM.'
 pubDate: '2026-04-22'
 updatedDate: '2026-11-17'
-heroImage: '../../assets/proyectos/sifc-portada.jpg'
-heroAlt: 'Estudiantes y docente trabajando juntos frente a una laptop'
+heroImage: '../../assets/proyectos/sifc-flyer.png'
+heroAlt: 'Flyer institucional de SIFC para la UNSM: cursos, aula virtual y certificados, con una vista ilustrativa de la plataforma'
+heroFit: 'contain'
 category: 'web'
 org: 'Unidad de Formación Continua · UNSM'
 status: 'En pruebas · desplegándose en servidores UNSM'
@@ -19,6 +20,7 @@ metrics:
   - { value: 'MVC', label: 'arquitectura por módulo' }
   - { value: 'QR', label: 'verificación pública de certificados' }
 gallery:
+  - { src: '../../assets/proyectos/sifc-portada.jpg', alt: 'Estudiantes y docente trabajando juntos frente a una laptop', caption: 'Imagen de presentación del proyecto de formación continua.' }
   - { src: '../../assets/proyectos/sifc-certificado.jpg', alt: 'Vista previa de un certificado generado por SIFC con código QR', caption: 'Certificado generado por SIFC (datos de ejemplo), con código QR para verificación pública.' }
 ---
 

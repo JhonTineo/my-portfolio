@@ -4,8 +4,9 @@ tagline: 'Asistente de IA que investiga, fundamenta con la normativa SUNASS y re
 description: 'Yumi: asistente de inteligencia artificial para la atención de reclamos de EMAPA San Martín, con RAG sobre normativa SUNASS, integrado en el sistema comercial SYSCO.'
 pubDate: '2026-06-05'
 updatedDate: '2026-11-19'
-heroImage: '../../assets/proyectos/yumi-atencion.jpg'
-heroAlt: 'Yumi atendiendo un reclamo: evidencias con el récord de facturación en gráfico y el informe de atención redactado por la IA'
+heroImage: '../../assets/proyectos/yumi-flyer.png'
+heroAlt: 'Flyer de Yumi con su identidad visual y un caso de ejemplo de análisis de un cargo duplicado'
+heroFit: 'contain'
 category: 'ia'
 org: 'EMAPA San Martín · SYSCO'
 status: 'En producción dentro de SYSCO'
@@ -20,6 +21,7 @@ metrics:
   - { value: '6', label: 'fuentes de SYSCO analizadas' }
   - { value: '160+', label: 'commits entre front y back' }
 gallery:
+  - { src: '../../assets/proyectos/yumi-atencion.jpg', alt: 'Interfaz de atención de reclamos de Yumi', caption: 'Vista de trabajo: evidencias de facturación e informe de atención asistido por IA.' }
   - { src: '../../assets/proyectos/yumi-tarjeta-lectura.jpg', alt: 'Análisis de la tarjeta de lecturas del medidor', caption: 'Análisis de un medio probatorio: datos de la tarjeta de lecturas, problemas detectados e interpretación de la IA.' }
   - { src: '../../assets/proyectos/yumi-lista.jpg', alt: 'Bandeja de reclamos con inspecciones realizadas', caption: 'Bandeja de reclamos con inspección realizada, lista para que Yumi los analice.' }
   - { src: '../../assets/proyectos/yumi-informe.jpg', alt: 'Borrador del informe de atención generado por Yumi', caption: 'Borrador del informe de atención: editable y exportable a Word.' }
